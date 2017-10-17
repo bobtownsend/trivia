@@ -4,11 +4,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var questions = require('./routes/questions');
 
 var app = express();
+
+mongoose.connect("mongodb://admin:ptooey@ds151068.mlab.com:51068/questionbank");
+
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
+  // we're connected!
+  console.log("Your DB is connected, congratulations!!!!");
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
